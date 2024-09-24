@@ -5,7 +5,7 @@ WITH customer_spending AS (
         c.customer_id,
         SUM(o.total_amount) AS total_spend,
         COUNT(o.order_id) AS total_orders,
-        MAX(o.order_date) AS last_order_date
+        MAX(TO_UTC_TIMESTAMP(o.order_date, 'Europe/Berlin')) AS last_order_date
     FROM {{ ref('customers') }} c
     JOIN {{ ref('orders') }} o ON c.customer_id = o.customer_id
     GROUP BY c.customer_id
